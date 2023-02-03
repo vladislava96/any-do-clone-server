@@ -17,3 +17,7 @@ model User {
   password  String
 }
 
+model Session {
+  key     String   @id
+  userId  Int
+}

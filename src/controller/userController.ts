@@ -2,9 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator/src/validation-result';
+import {v4 as uuidv4} from 'uuid';
 
 const client = new PrismaClient();
-
 class UserController {
 
   async registration(req: Request, res: Response) {
@@ -38,8 +38,22 @@ class UserController {
     if(!validPassword) {
       throw new Error('Wrong password entered.');
     }
-    res.json('Validation was successful! :)');
-    res.status(201);
+    const key = uuidv4();
+    const newSession = await client.session.create({
+      data: {
+        key,
+        userId: user.id
+      }
+    })
+    res.json(newSession);
+    res.status(200);
+  }
+
+  async logout(req: Request, res: Response) {
+    const key = req.header('Api-Key');
+    const session = await client.session.delete({where: {key}})
+    res.json(session);
+    res.status(200);
   }
 }
 
