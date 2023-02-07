@@ -7,7 +7,7 @@
     "build": "tsc",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
     "start": "tsc && node dist/index.js",
-    "dev": "nodemon dist/index.js"
+    "watch": "nodemon --watch src/**/* --exec \"tsc && node dist/index.js\" --ext ts,json"
   },
   "keywords": [],
   "author": "",
