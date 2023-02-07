@@ -12,7 +12,7 @@ class UserController {
     if(!errors.isEmpty()) {
       res.status(400).json({
         message: 'Validation error.',
-        errors
+        errors: errors.array()
       });
       return;
     }
