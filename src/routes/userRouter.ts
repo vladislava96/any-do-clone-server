@@ -9,7 +9,7 @@ router.post(
   [
     check('email', 'User email cannot be empty.').notEmpty(),
     check('email', 'Invalid email.').isEmail(),
-    check('password', 'The password must be 8 characters long.').isLength({min: 8, max: 8})
+    check('password', 'The password must be more than 8 characters long.').isLength({min: 8})
   ],
   userController.registration
 )
