@@ -2,18 +2,20 @@
 
 To start the server you need:
 
-1. Install PostgreSQL;
+1. Install PostgreSQL, create a password for your database,
+2. Create a database,
+3. In the `.env` file, `DATABASE_URL`, enter the password and database name.
 
 Run commands in terminal:
 
-2. `npm install`;
-3. `npx prisma migrate dev`;
-4. `npx prisma generate`;
-5. `npm start`.
+1. `npm install`;
+2. `npx prisma migrate dev`;
+3. `npx prisma generate`;
+4. `npm start`.
 
 ## Usage
 
-### Registration
+<details><summary>Registration</summary>
 
 - URL
 
@@ -60,8 +62,9 @@ Run commands in terminal:
     ]
   }
   ```
+</details>
 
-### Login
+<details><summary>Login</summary>
 
 - URL
 
@@ -99,7 +102,9 @@ Run commands in terminal:
     "message": "Wrong password entered."
   }
   ```
-### Logout
+</details>
+
+<details><summary>Logout</summary>
 
 - URL
 
@@ -135,3 +140,106 @@ Run commands in terminal:
     "message": "User is not authorized."
   }
   ```
+</details>
+
+<details><summary>Getting users</summary>
+
+- URL
+
+  /api/users
+
+- Method
+
+  `GET`
+
+- Success Response:
+
+  Code: 200 OK
+
+  Content:
+  ```json
+  [{
+    "name": "Victor",
+    "email": "vvv87@mail.com"
+  }]
+  ```
+- Error Response:
+
+  Code: 400 Bad Request
+
+  Content:
+
+  ```json
+  {
+    "message": "Bad request."
+  }
+  ```
+</details>
+
+<details><summary>Getting quotes</summary>
+
+- URL
+
+  /api/quotes
+
+- Method
+
+  `GET`
+
+- Success Response:
+
+  Code: 200 OK
+
+  Content:
+  ```json
+  [{
+    "text": "Вы не будете расти, если не будете пытаться совершить что-то за пределами того, что вы уже знаете в совершенстве.",
+    "author": "Ральф Эмерсон"
+  }]
+  ```
+- Error Response:
+
+  Code: 400 Bad Request
+
+  Content:
+
+  ```json
+  {
+    "message": "Bad request."
+  }
+  ```
+</details>
+
+<details><summary>Getting random quote</summary>
+
+- URL
+
+  /api/quotes/random
+
+- Method
+
+  `GET`
+
+- Success Response:
+
+  Code: 200 OK
+
+  Content:
+  ```json
+  {
+    "text": "Вы не будете расти, если не будете пытаться совершить что-то за пределами того, что вы уже знаете в совершенстве.",
+    "author": "Ральф Эмерсон"
+  }
+  ```
+- Error Response:
+
+  Code: 400 Bad Request
+
+  Content:
+
+  ```json
+  {
+    "message": "Bad request."
+  }
+  ```
+</details>
