@@ -86,6 +86,19 @@ class UserController {
       });
     }
   }
+
+  async getUsers(req: Request, res: Response) {
+    try {
+      const users = await client.user.findMany();
+      const data = users.map(user => ({name: user.name, email: user.email}))
+      res.json(data);
+      res.status(200);
+    } catch (err) {
+      res.status(400).json({
+        message: 'Bad request'
+      })
+    }
+  }
 }
 
 const userController = new UserController();
