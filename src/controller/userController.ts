@@ -32,12 +32,12 @@ class UserController {
         password: hashPassword
       }
     });
-    const responseUser = {
+    const response = {
       id: newUser.id,
       name,
       email
     }
-    res.json(responseUser);
+    res.json(response);
     res.status(201);
   }
 
@@ -64,7 +64,13 @@ class UserController {
         userId: user.id
       }
     })
-    res.json(newSession);
+    const response = {
+      key: newSession.key,
+      id: newSession.userId,
+      name: user.name,
+      email: user.email
+    }
+    res.json(response);
     res.status(200);
   }
 
