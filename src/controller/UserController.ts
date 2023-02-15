@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { Request, Response } from 'express';
+import express, { Response } from 'express';
+import { Request } from '../http';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,9 +9,13 @@ export default class UserController {
   public constructor(
     private readonly client: PrismaClient,
   ) {
+    this.registration = this.registration.bind(this);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+    this.getUsers = this.getUsers.bind(this);
   }
 
-  async registration(req: Request, res: Response) {
+  async registration(req: express.Request, res: Response) {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
       res.status(400).json({
@@ -44,7 +49,7 @@ export default class UserController {
     res.status(201);
   }
 
-  async login(req: Request, res: Response) {
+  async login(req: express.Request, res: Response) {
     const {email, password} = req.body;
     const user = await this.client.user.findFirst({where: {email}});
     if(!user) {
@@ -78,9 +83,8 @@ export default class UserController {
   }
 
   async logout(req: Request, res: Response) {
-    const key = req.header('Api-Key');
     try {
-      const session = await this.client.session.delete({where: {key}})
+      const session = await this.client.session.delete({where: { key: req.key }})
       res.json(session);
       res.status(200);
     } catch(err) {

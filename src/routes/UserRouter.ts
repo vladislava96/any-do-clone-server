@@ -1,11 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
 import { check } from 'express-validator';
+import Authorization from '../Authorization';
 import UserController from '../controller/UserController';
 
 export default class UserRouter {
   public constructor(
-    private readonly client: PrismaClient
+    private readonly client: PrismaClient,
+    private readonly authorization: Authorization,
   ) {
   }
 
@@ -23,8 +25,8 @@ export default class UserRouter {
       userController.registration
     )
     router.post('/login', userController.login);
-    router.post('/logout', userController.logout);
-    router.get('/users', userController.getUsers);
+    router.post('/logout', this.authorization.createMiddleware(), userController.logout);
+    router.get('/users', this.authorization.createMiddleware(), userController.getUsers);
     
     return router
   }
