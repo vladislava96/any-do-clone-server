@@ -1,0 +1,830 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "API Title",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:8080/api"
+    }
+  ],
+  "paths": {
+    "/registration": {
+      "post": {
+        "tags": [
+          "Security"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Registration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UserResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationErrorResponse"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Security"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authorization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SessionResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationErrorResponse"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Security"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SessionResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          }
+        }
+      }
+    },
+    "/quotes": {
+      "get": {
+        "tags": [
+          "Quote"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/QuotesResponse"
+          }
+        }
+      }
+    },
+    "/quotes/random": {
+      "get": {
+        "tags": [
+          "Quote"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/QuoteResponse"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UsersResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ProjectsResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/ProjectResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ProjectResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ProjectResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/tasks": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TasksResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Task"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskCreation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/TasksResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/tasks/{taskId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "taskId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TasksResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Task"
+        ],
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/TasksResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationErrorResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Task"
+        ],
+        "security": [
+          {
+            "ApiToken": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedErrorResponse"
+          },
+          "403": {
+            "$ref": "#/components/responses/AccessDeniedErrorResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Api-Key"
+      }
+    },
+    "responses": {
+      "UnauthorizedErrorResponse": {
+        "description": "User is not authorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UnauthorizedError"
+            }
+          }
+        }
+      },
+      "AccessDeniedErrorResponse": {
+        "description": "User access denied",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AccessDeniedError"
+            }
+          }
+        }
+      },
+      "ValidationErrorResponse": {
+        "description": "Validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "NotFoundErrorResponse": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NotFoundError"
+            }
+          }
+        }
+      },
+      "QuoteResponse": {
+        "description": "Quote",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Quote"
+            }
+          }
+        }
+      },
+      "QuotesResponse": {
+        "description": "Quote",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Quotes"
+            }
+          }
+        }
+      },
+      "UserResponse": {
+        "description": "User",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "UsersResponse": {
+        "description": "Users",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Users"
+            }
+          }
+        }
+      },
+      "SessionResponse": {
+        "description": "Authorization session",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Session"
+            }
+          }
+        }
+      },
+      "ProjectResponse": {
+        "description": "User project",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Project"
+            }
+          }
+        }
+      },
+      "ProjectsResponse": {
+        "description": "User projects",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Projects"
+            }
+          }
+        }
+      },
+      "TaskResponse": {
+        "description": "User project task",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Task"
+            }
+          }
+        }
+      },
+      "TasksResponse": {
+        "description": "User project task",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Tasks"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "UnauthorizedError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessDeniedError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "msg": {
+                  "type": "string"
+                },
+                "param": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Quote": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          }
+        }
+      },
+      "Quotes": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Quote"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        }
+      },
+      "Registration": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Authorization": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "ProjectCreation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Project name"
+          }
+        }
+      },
+      "ProjectUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Project name"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Project name"
+          },
+          "owner": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Projects": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Project"
+        }
+      },
+      "TaskCreation": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "performDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "TaskUpdate": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "performDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "projectId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "performDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "Tasks": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Task"
+        }
+      }
+    }
+  }
+}
