@@ -97,7 +97,7 @@ export default class UserController {
   async getUsers(req: Request, res: Response) {
     try {
       const users = await this.client.user.findMany();
-      const data = users.map(user => ({name: user.name, email: user.email}))
+      const data = users.map(user => ({id: user.id, name: user.name, email: user.email}))
       res.json(data);
       res.status(200);
     } catch (err) {
