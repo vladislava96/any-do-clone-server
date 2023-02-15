@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import quoteController from '../controller/quoteController';
+import QuoteController from '../controller/QuoteController';
 
-const router = Router();
+export default class QuoteRouter {
+  public create(): Router {
+    const quoteController = new QuoteController();
+    const router = Router();
 
-router.get('/', quoteController.getAll);
-router.get('/random', quoteController.getRandom);
-
-export default router;
+    router.get('/', quoteController.getAll);
+    router.get('/random', quoteController.getRandom);
+    
+    return router;
+  }
+}

@@ -4,8 +4,11 @@ import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import { v4 as uuidv4 } from 'uuid';
 
-const client = new PrismaClient();
-class UserController {
+export default class UserController {
+  public constructor(
+    private readonly client: PrismaClient,
+  ) {
+  }
 
   async registration(req: Request, res: Response) {
     const errors = validationResult(req);
@@ -17,7 +20,7 @@ class UserController {
       return;
     }
     const {name, email, password} = req.body;
-    const user = await client.user.findFirst({where: {email}});
+    const user = await this.client.user.findFirst({where: {email}});
     if(user) {
       res.status(400).json({
         message: 'User with this email address already exists.'
@@ -25,7 +28,7 @@ class UserController {
       return;
     }
     const hashPassword = bcrypt.hashSync(password, 7);
-    const newUser = await client.user.create({
+    const newUser = await this.client.user.create({
       data: {
         name,
         email,
@@ -43,7 +46,7 @@ class UserController {
 
   async login(req: Request, res: Response) {
     const {email, password} = req.body;
-    const user = await client.user.findFirst({where: {email}});
+    const user = await this.client.user.findFirst({where: {email}});
     if(!user) {
       res.status(400).json({
         message: 'User with this email address does not exist.'
@@ -58,7 +61,7 @@ class UserController {
       return;
     }
     const key = uuidv4();
-    const newSession = await client.session.create({
+    const newSession = await this.client.session.create({
       data: {
         key,
         userId: user.id
@@ -77,7 +80,7 @@ class UserController {
   async logout(req: Request, res: Response) {
     const key = req.header('Api-Key');
     try {
-      const session = await client.session.delete({where: {key}})
+      const session = await this.client.session.delete({where: {key}})
       res.json(session);
       res.status(200);
     } catch(err) {
@@ -89,7 +92,7 @@ class UserController {
 
   async getUsers(req: Request, res: Response) {
     try {
-      const users = await client.user.findMany();
+      const users = await this.client.user.findMany();
       const data = users.map(user => ({name: user.name, email: user.email}))
       res.json(data);
       res.status(200);
@@ -100,7 +103,3 @@ class UserController {
     }
   }
 }
-
-const userController = new UserController();
-
-export default userController;

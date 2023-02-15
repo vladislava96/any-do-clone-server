@@ -79,7 +79,7 @@ const quotes = [
   }
 ]
 
-class QuoteController {
+export default class QuoteController {
   getAll(req: Request, res: Response) {
     res.json(quotes)
   }
@@ -88,7 +88,3 @@ class QuoteController {
     res.json(quotes[randomIndex])
   }
 }
-
-const quoteController = new QuoteController();
-
-export default quoteController;
