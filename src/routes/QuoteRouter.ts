@@ -6,8 +6,8 @@ export default class QuoteRouter {
     const quoteController = new QuoteController();
     const router = Router();
 
-    router.get('/', quoteController.getAll);
-    router.get('/random', quoteController.getRandom);
+    router.get('/quotes/', quoteController.getAll);
+    router.get('/quotes/random', quoteController.getRandom);
     
     return router;
   }
