@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
-import { body, check, ValidationChain } from 'express-validator';
+import { body, ValidationChain } from 'express-validator';
 import TaskController from '../controller/TaskController';
 import Authorization from '../Authorization';
 
@@ -30,12 +30,12 @@ export default class TaskRouter {
       body('projectId')
         .if(body('projectId').notEmpty())
           .isNumeric().withMessage('Project ID must be integer.'),
-      check('status')
+      body('status')
         .notEmpty().withMessage('Status is required.'),
-      check('performDate')
+      body('performDate')
         .notEmpty().withMessage('Perform date is required.').bail()
         .isISO8601().withMessage('Perform date must be date.'),
-      check('title')
+      body('title')
         .notEmpty().withMessage('Title is required.'),
     ];
   }

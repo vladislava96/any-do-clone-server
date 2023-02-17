@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
-import { check } from 'express-validator';
+import { body } from 'express-validator';
 import Authorization from '../Authorization';
 import UserController from '../controller/UserController';
 
@@ -18,9 +18,10 @@ export default class UserRouter {
     router.post(
       '/registration',
       [
-        check('email', 'User email cannot be empty.').notEmpty(),
-        check('email', 'Invalid email.').isEmail(),
-        check('password', 'The password must be more than 8 characters long.').isLength({min: 8})
+        body('email')
+          .notEmpty().withMessage('User email cannot be empty.').bail()
+          .isEmail().withMessage('Invalid email.'),
+        body('password', 'The password must be more than 8 characters long.').isLength({min: 8})
       ],
       userController.registration
     )

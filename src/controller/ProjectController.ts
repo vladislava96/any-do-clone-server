@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { Request } from '../http';
+import { validationResult } from 'express-validator';
 
 export default class ProjectController {
   public constructor(
@@ -23,7 +24,7 @@ export default class ProjectController {
 
   public async getOne(req: Request, res: Response): Promise<void> {
     const id = Number(req.params.projectId);
-    const project = await this.client.project.findFirst({ where: { id }});
+    const project = await this.client.project.findFirst({ where: { id } });
 
     if (project === null) {
       res.status(404).json({
@@ -38,18 +39,26 @@ export default class ProjectController {
 
   public async create(req: Request, res: Response): Promise<void> {
     const { name } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({
+        message: 'Validation error.',
+        errors: errors.array()
+      });
+      return;
+    }
 
     const project = await this.client.project.create({
       data: { ownerId: req.user.id, name }
     })
-    
+
     res.status(200).json(project);
   }
 
   public async update(req: Request, res: Response): Promise<void> {
     const { name } = req.body;
     const id = Number(req.params.projectId);
-    let project = await this.client.project.findFirst({ where: { id }});
+    let project = await this.client.project.findFirst({ where: { id } });
 
     if (project === null) {
       res.status(404).json({
@@ -67,6 +76,15 @@ export default class ProjectController {
       return;
     }
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({
+        message: 'Validation error.',
+        errors: errors.array()
+      });
+      return;
+    }
+
     project = await this.client.project.update({
       data: { name },
       where: { id },
@@ -77,7 +95,7 @@ export default class ProjectController {
 
   public async delete(req: Request, res: Response): Promise<void> {
     const id = Number(req.params.projectId);
-    const project = await this.client.project.findFirst({ where: { id }});
+    const project = await this.client.project.findFirst({ where: { id } });
 
     if (project === null) {
       res.status(404).json({
@@ -96,10 +114,10 @@ export default class ProjectController {
     }
 
     try {
-      await this.client.project.delete({ where: { id }});
+      await this.client.project.delete({ where: { id } });
 
       res.status(204).send();
-    } catch(error) {
+    } catch (error) {
       res.status(404).json({
         message: 'Project not found'
       });
