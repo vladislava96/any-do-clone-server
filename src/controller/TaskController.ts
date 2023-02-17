@@ -15,8 +15,32 @@ export default class TaskController {
   }
 
   public async getAll(req: Request, res: Response): Promise<void> {
-    const tasks = this.client.task.findMany({
-      where: { ownerId: req.user.id }
+    let projectId: number | undefined = undefined;
+    if (req.query.projectId) {
+      projectId = Number(req.query.projectId);
+      const project = await this.client.project.findFirst({ where: { id: Number(projectId) }});
+      if (project === null) {
+        res.status(404).json({
+          message: 'Project no found'
+        });
+
+        return;
+      }
+
+      if (project.ownerId !== req.user.id) {
+        res.status(403).json({
+          message: 'No access to project'
+        });
+
+        return;
+      }
+    }
+
+    const tasks = await this.client.task.findMany({
+      where: {
+        projectId,
+        ownerId: req.user.id,
+      }
     })
 
     res.status(200).json(tasks);
