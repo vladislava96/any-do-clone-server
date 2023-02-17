@@ -18,6 +18,7 @@ model User {
   password  String
   projects  Project[]
   tasks     Task[]
+  columns    Column[]
 }
 
 model Session {
@@ -44,4 +45,21 @@ model Task {
   title         String
   description   String?
   tag           String?
+}
+
+model Column {
+  id        Int       @id @default(autoincrement())
+  title     String
+  ownerId   Int
+  owner     User      @relation(fields: [ownerId], references: [id])
+  cards     Card[]
+}
+
+model Card {
+  id              Int         @id @default(autoincrement())
+  title           String
+  description     String?
+  participant     String?
+  columnId        Int
+  column          Column      @relation(fields: [columnId], references: [id], onDelete: Cascade)
 }
