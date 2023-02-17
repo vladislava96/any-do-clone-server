@@ -34,6 +34,14 @@ export default class ProjectController {
       return;
     }
 
+    if (project.ownerId !== req.user.id) {
+      res.status(403).json({
+        message: 'No access to project'
+      });
+
+      return;
+    }
+
     res.status(200).json(project);
   }
 
