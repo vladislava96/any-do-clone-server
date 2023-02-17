@@ -39,7 +39,7 @@ model Task {
   ownerId       Int
   owner         User        @relation(fields: [ownerId], references: [id])
   projectId     Int?
-  project       Project?    @relation(fields: [projectId], references: [id])
+  project       Project?    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   status        String      @default("Not started")
   performDate   DateTime
   title         String

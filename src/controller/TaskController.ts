@@ -105,12 +105,12 @@ export default class TaskController {
     const task = await this.client.task.create({
       data: {
         ownerId: req.user.id,
-        projectId,
+        projectId: projectId ?? null,
         status: req.body.status,
         performDate: new Date(req.body.performDate),
         title: req.body.title,
-        description: req.body.description,
-        tag: req.body.tag
+        description: req.body.description ?? null,
+        tag: req.body.tag ?? null,
       }
     })
 
@@ -169,12 +169,12 @@ export default class TaskController {
 
     task = await this.client.task.update({
       data: {
-        projectId,
+        projectId: projectId ?? null,
         status: req.body.status,
         performDate: new Date(req.body.performDate),
         title: req.body.title,
-        description: req.body.description,
-        tag: req.body.tag
+        description: req.body.description ?? null,
+        tag: req.body.tag ?? null,
       }, where: { id: taskId }
     });
 
