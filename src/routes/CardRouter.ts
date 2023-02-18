@@ -16,11 +16,11 @@ export default class CardRouter {
     const router = Router();
 
     router.use(this.authorization.createMiddleware());
-    router.get('/cards/', controller.getAll);
-    router.post('/cards/', this.cardValidation(), controller.create);
-    router.get('/cards/:cardId', controller.getOne);
-    router.put('/cards/:cardId', this.cardValidation(), controller.update);
-    router.delete('/cards/:cardId', controller.delete);
+    router.get('/', controller.getAll);
+    router.post('/', this.cardValidation(), controller.create);
+    router.get('/:cardId', controller.getOne);
+    router.put('/:cardId', this.cardValidation(), controller.update);
+    router.delete('/:cardId', controller.delete);
 
     return router;
   }

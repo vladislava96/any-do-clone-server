@@ -17,11 +17,11 @@ export default class ColumnRouter {
     const router = Router();
 
     router.use(this.authorization.createMiddleware());
-    router.get('/columns/', controller.getAll);
-    router.post('/columns/', this.columnValidation(), controller.create);
-    router.get('/columns/:columnId', controller.getOne);
-    router.put('/columns/:columnId', this.columnValidation(), controller.update);
-    router.delete('/columns/:columnId', controller.delete);
+    router.get('/', controller.getAll);
+    router.post('/', this.columnValidation(), controller.create);
+    router.get('/:columnId', controller.getOne);
+    router.put('/:columnId', this.columnValidation(), controller.update);
+    router.delete('/:columnId', controller.delete);
 
     return router;
   }

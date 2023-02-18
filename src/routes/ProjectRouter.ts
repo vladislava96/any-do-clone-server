@@ -16,11 +16,11 @@ export default class ProjectRouter {
     const router = Router();
 
     router.use(this.authorization.createMiddleware());
-    router.get('/projects/', controller.getAll);
-    router.post('/projects/', this.projectValidation(), controller.create);
-    router.get('/projects/:projectId', controller.getOne);
-    router.put('/projects/:projectId', this.projectValidation(), controller.update);
-    router.delete('/projects/:projectId', controller.delete);
+    router.get('/', controller.getAll);
+    router.post('/', this.projectValidation(), controller.create);
+    router.get('/:projectId', controller.getOne);
+    router.put('/:projectId', this.projectValidation(), controller.update);
+    router.delete('/:projectId', controller.delete);
 
     return router;
   }

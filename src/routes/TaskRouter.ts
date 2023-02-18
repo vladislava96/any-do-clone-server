@@ -16,11 +16,11 @@ export default class TaskRouter {
     const router = Router();
 
     router.use(this.authorization.createMiddleware());
-    router.get('/tasks/', controller.getAll);
-    router.post('/tasks/', this.taskValidation(), controller.create);
-    router.get('/tasks/:taskId', controller.getOne);
-    router.put('/tasks/:taskId', this.taskValidation(), controller.update);
-    router.delete('/tasks/:taskId', controller.delete);
+    router.get('/', controller.getAll);
+    router.post('/', this.taskValidation(), controller.create);
+    router.get('/:taskId', controller.getOne);
+    router.put('/:taskId', this.taskValidation(), controller.update);
+    router.delete('/:taskId', controller.delete);
 
     return router;
   }

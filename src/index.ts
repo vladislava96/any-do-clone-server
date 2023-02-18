@@ -25,10 +25,10 @@ const quoteRouterFactory = new QuoteRouter();
 app.use(cors());
 app.use(express.json());
 app.use('/api', userRouterFactory.create());
-app.use('/api', projectRouterFactory.create());
-app.use('/api', quoteRouterFactory.create());
-app.use('/api', taskRouterFactory.create());
-app.use('/api', columnRouterFactory.create());
-app.use('/api', cardRouterFactory.create());
+app.use('/api/projects', projectRouterFactory.create());
+app.use('/api/quotes', quoteRouterFactory.create());
+app.use('/api/tasks', taskRouterFactory.create());
+app.use('/api/columns', columnRouterFactory.create());
+app.use('/api/cards', cardRouterFactory.create());
 
 app.listen(PORT, () => {console.log('server started http://localhost:8080')});
