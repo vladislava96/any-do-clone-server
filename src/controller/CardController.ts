@@ -115,7 +115,8 @@ export default class CardController {
         columnId,
         title: req.body.title,
         description: req.body.description,
-        participant: req.body.participant
+        participant: req.body.participant,
+        order: req.body.order,
       }
     })
 
@@ -133,7 +134,7 @@ export default class CardController {
       return;
     }
 
-    let column = await this.client.column.findFirst({ where: { id: card.columnId } })
+    const column = await this.client.column.findFirst({ where: { id: card.columnId } })
 
     if (column === null) {
       res.status(404).json({
@@ -174,7 +175,8 @@ export default class CardController {
         columnId: req.body.columnId,
         title: req.body.title,
         description: req.body.description ?? null,
-        participant: req.body.participant ?? null
+        participant: req.body.participant ?? null,
+        order: req.body.order
       }, where: { id: cardId }
     });
 

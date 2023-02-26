@@ -32,6 +32,8 @@ export default class CardRouter {
           .isNumeric().withMessage('Column ID must be integer.'),
       body('title')
         .notEmpty().withMessage('Title is required.'),
+      body('order')
+        .notEmpty().isNumeric().withMessage('Order must be integer.')
     ];
   }
 }

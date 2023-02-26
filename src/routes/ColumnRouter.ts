@@ -29,6 +29,8 @@ export default class ColumnRouter {
   public columnValidation(): ValidationChain[] {
     return [
       body('title', 'Title is required.').notEmpty(),
+      body('order')
+        .notEmpty().isNumeric().withMessage('Order must be integer.')
     ];
   }
 }

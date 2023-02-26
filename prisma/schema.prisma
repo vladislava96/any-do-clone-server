@@ -53,6 +53,7 @@ model Column {
   ownerId   Int
   owner     User      @relation(fields: [ownerId], references: [id])
   cards     Card[]
+  order     Int       @default(0)
 }
 
 model Card {
@@ -62,4 +63,5 @@ model Card {
   participant     String?
   columnId        Int
   column          Column      @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  order           Int         @default(0)
 }

@@ -57,7 +57,11 @@ export default class ColumnController {
     }
 
     const column = await this.client.column.create({
-      data: { ownerId: req.user.id, title }
+      data: { 
+        ownerId: req.user.id, 
+        title,
+        order: req.body.order,
+      }
     })
 
     res.status(200).json(column);
@@ -94,7 +98,7 @@ export default class ColumnController {
     }
 
     column = await this.client.column.update({
-      data: { title },
+      data: { title, order: req.body.order },
       where: { id },
     });
 
